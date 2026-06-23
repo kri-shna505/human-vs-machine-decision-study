@@ -2,24 +2,28 @@ from logging.config import fileConfig
 
 from alembic import context
 
-# Import the models package so registered ORM models become visible
-# through Base.metadata.
-from app import models  # noqa: F401
+# Importing the models package registers every ORM model with Base.metadata.
+# Alembic needs this import before it performs schema comparisons.
+from app import models as registered_models  # noqa: F401
 from app.database import Base, engine
 
 
+# Alembic's Config object provides access to alembic.ini.
 config = context.config
 
+# Configure Python logging using the logging sections in alembic.ini.
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 
+# Alembic compares the live database schema against this metadata.
 target_metadata = Base.metadata
 
 
 def run_migrations_offline() -> None:
-    """Run migrations without creating a live database connection."""
+    """Run migrations without opening a live database connection."""
 
+    # Convert the SQLAlchemy URL into a string Alembic can use.
     database_url = engine.url.render_as_string(hide_password=False)
 
     context.configure(
