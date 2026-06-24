@@ -72,7 +72,7 @@ def create_participant(
 def create_scenario(
     session: Session,
     *,
-    slug: str = "conjunction-fallacy",
+    slug: str = "test-conjunction-fallacy",
     version: int = 1,
 ) -> tuple[Scenario, ScenarioOption, ScenarioOption]:
     """Create one scenario with two selectable options."""
@@ -158,12 +158,12 @@ def test_duplicate_scenario_slug_and_version_fail(
 
     create_scenario(
         db_session,
-        slug="framing-effect",
+        slug="test-framing-effect",
         version=1,
     )
 
     duplicate = Scenario(
-        slug="framing-effect",
+        slug="test-framing-effect",
         version=1,
         title="Duplicate framing scenario",
         category="contextual-bias",

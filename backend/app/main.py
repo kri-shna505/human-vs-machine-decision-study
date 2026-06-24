@@ -1,10 +1,12 @@
-from app.api.health import router as health_router
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api import health_router, study_router
+from app.api.exception_handlers import register_service_exception_handlers
 from app.config import get_settings
 
 
+# Load and cache the application configuration.
 settings = get_settings()
 
 
@@ -27,9 +29,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(health_router)
 
-@app.get("/", tags=["System"])
+# Convert predictable service-layer exceptions into HTTP responses.
+register_service_exception_handlers(app)
+
+
+# Register application routers.
+app.include_router(health_router)
+app.include_router(study_router)
+
+
+@app.get(
+    "/",
+    tags=["System"],
+    summary="Read application information",
+)
 def read_root() -> dict[str, str]:
     """Return basic application information."""
 
