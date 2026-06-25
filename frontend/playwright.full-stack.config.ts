@@ -1,15 +1,21 @@
 import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-  testDir: "./e2e",
-  testIgnore: ["**/full-stack/**"],
+  testDir: "./e2e/full-stack",
   fullyParallel: false,
   forbidOnly: true,
   retries: 1,
   workers: 1,
+  outputDir: "test-results/full-stack",
   reporter: [
     ["list"],
-    ["html", { open: "never" }],
+    [
+      "html",
+      {
+        outputFolder: "playwright-report/full-stack",
+        open: "never",
+      },
+    ],
   ],
   use: {
     baseURL: "http://127.0.0.1:4173",
@@ -19,7 +25,7 @@ export default defineConfig({
   },
   projects: [
     {
-      name: "chromium",
+      name: "chromium-full-stack",
       use: {
         ...devices["Desktop Chrome"],
       },
@@ -27,7 +33,7 @@ export default defineConfig({
   ],
   webServer: {
     command:
-      "npm run dev -- --host 127.0.0.1 --port 4173",
+      "npm run preview -- --host 127.0.0.1 --port 4173",
     url: "http://127.0.0.1:4173",
     reuseExistingServer: true,
     timeout: 120_000,
