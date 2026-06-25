@@ -1,0 +1,128 @@
+name: Full-stack CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: full-stack-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  full-stack:
+    name: Frontend, API, and PostgreSQL
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    env:
+      APP_NAME: Human vs Machine Decision Study
+      APP_MODE: demonstration
+      POSTGRES_DB: decision_study
+      POSTGRES_USER: decision_user
+      POSTGRES_PASSWORD: decision_password
+      POSTGRES_HOST: 127.0.0.1
+      POSTGRES_PORT: 5432
+      FRONTEND_ORIGIN: http://127.0.0.1:4173
+      VITE_API_BASE_URL: http://127.0.0.1:8000
+      E2E_API_BASE_URL: http://127.0.0.1:8000
+
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: decision_study
+          POSTGRES_USER: decision_user
+          POSTGRES_PASSWORD: decision_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd
+          "pg_isready -U decision_user -d decision_study"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip check
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Apply database migrations
+        working-directory: backend
+        run: |
+          python -m alembic upgrade head
+          python -m alembic check
+
+      - name: Seed baseline scenarios
+        working-directory: backend
+        run: python -m app.seeds.scenarios
+
+      - name: Start backend API
+        working-directory: backend
+        run: |
+          python -m uvicorn app.main:app             --host 127.0.0.1             --port 8000             > ../backend-full-stack.log 2>&1 &
+          echo $! > ../backend-full-stack.pid
+
+      - name: Wait for backend API
+        run: |
+          for attempt in {1..30}; do
+            if curl               --fail               --silent               http://127.0.0.1:8000/health               > /dev/null; then
+              exit 0
+            fi
+
+            sleep 2
+          done
+
+          cat backend-full-stack.log
+          exit 1
+
+      - name: Install Chromium
+        working-directory: frontend
+        run: npx playwright install --with-deps chromium
+
+      - name: Run real full-stack browser tests
+        working-directory: frontend
+        run: npm run test:e2e:full-stack
+
+      - name: Verify persisted PostgreSQL data
+        working-directory: backend
+        run: python -m scripts.verify_full_stack_data
+
+      - name: Upload full-stack diagnostics
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: full-stack-diagnostics
+          path: |
+            backend-full-stack.log
+            frontend/playwright-report/full-stack/
+            frontend/test-results/full-stack/
+          if-no-files-found: ignore
+          retention-days: 14
