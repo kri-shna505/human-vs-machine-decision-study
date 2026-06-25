@@ -1,7 +1,20 @@
-# Environment variables
+# Environment variables and local secrets
 .env
-.env.local
-*.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+
+# Private keys and credential exports
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+credentials*.json
+service-account*.json
+secrets/
 
 # Python
 __pycache__/
@@ -12,11 +25,13 @@ __pycache__/
 backend/.venv/
 backend/htmlcov/
 .coverage
+coverage.xml
 
 # Node
 frontend/node_modules/
 frontend/dist/
 frontend/.vite/
+frontend/coverage/
 
 # IDE
 .vscode/
