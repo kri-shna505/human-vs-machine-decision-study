@@ -27,3 +27,4 @@ dist-ssr
 # Frontend local environment
 frontend/.env.local
 frontend/*.local
+coverage/

@@ -151,6 +151,8 @@
   border-radius: 8px;
   padding: 15px 32px;
   background: #0f172a;
+  display: inline-block;
+  text-decoration: none;
   color: #ffffff;
   cursor: pointer;
   font: inherit;
@@ -430,5 +432,598 @@
 
   .api-status--checking .api-status-dot {
     animation: none;
+  }
+}
+
+/* =========================
+   Participant consent flow
+   ========================= */
+
+.participant-page {
+  min-height: 100vh;
+  background: #f6f8fb;
+  color: #0f172a;
+}
+
+.participant-header {
+  display: flex;
+  align-items: center;
+  min-height: 72px;
+  padding: 0 32px;
+  background: #ffffff;
+  border-bottom: 1px solid #dbe3ec;
+}
+
+.participant-brand {
+  color: #0f172a;
+  font-size: 1rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.participant-brand:hover {
+  color: #0f766e;
+}
+
+.participant-brand:focus-visible,
+.secondary-button:focus-visible,
+.consent-checkbox:focus-within {
+  outline: 3px solid rgb(15 159 140 / 30%);
+  outline-offset: 4px;
+}
+
+.consent-layout {
+  display: flex;
+  justify-content: center;
+  padding: 64px 24px;
+}
+
+.consent-card {
+  width: min(100%, 760px);
+  padding: 48px;
+  background: #ffffff;
+  border: 1px solid #dbe3ec;
+  border-radius: 20px;
+  box-shadow: 0 18px 50px rgb(15 23 42 / 8%);
+}
+
+.consent-card h1 {
+  margin: 8px 0 16px;
+  color: #0f172a;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.1;
+}
+
+.consent-introduction {
+  margin: 0 0 32px;
+  color: #52647b;
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+
+.consent-information {
+  display: grid;
+  gap: 8px;
+}
+
+.consent-information h2 {
+  margin: 20px 0 0;
+  color: #0f172a;
+  font-size: 1.05rem;
+}
+
+.consent-information p {
+  margin: 4px 0;
+  color: #52647b;
+  line-height: 1.7;
+}
+
+.consent-form {
+  margin-top: 36px;
+}
+
+.consent-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px;
+  background: #f8fafc;
+  border: 1px solid #cbd7e5;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.consent-checkbox:hover {
+  border-color: #94a3b8;
+}
+
+.consent-checkbox input {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  flex: 0 0 auto;
+  accent-color: #0f9f8c;
+}
+
+.consent-checkbox span {
+  color: #334155;
+  line-height: 1.55;
+}
+
+.form-error {
+  margin: 16px 0 0;
+  color: #b42318;
+  font-weight: 700;
+}
+
+.form-status {
+  margin: 16px 0 0;
+  color: #087f6f;
+  font-weight: 700;
+}
+
+.consent-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 20px;
+  color: #0f172a;
+  font-weight: 700;
+  text-decoration: none;
+  background: #ffffff;
+  border: 1px solid #cbd7e5;
+  border-radius: 9px;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease;
+}
+
+.secondary-button:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.primary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  box-shadow: none;
+  transform: none;
+}
+
+/* =========================
+   Study bootstrap screen
+   ========================= */
+
+.study-bootstrap {
+  width: min(calc(100% - 48px), 760px);
+  margin: 80px auto;
+  padding: 48px;
+  color: #0f172a;
+  background: #ffffff;
+  border: 1px solid #dbe3ec;
+  border-radius: 20px;
+  box-shadow: 0 18px 50px rgb(15 23 42 / 8%);
+}
+
+.study-bootstrap h1 {
+  margin: 8px 0 18px;
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+
+.study-bootstrap > p {
+  color: #52647b;
+  line-height: 1.7;
+}
+
+.study-bootstrap dl {
+  display: grid;
+  gap: 16px;
+  margin: 32px 0;
+}
+
+.study-bootstrap dl div {
+  padding: 16px;
+  background: #f6f8fb;
+  border: 1px solid #dbe3ec;
+  border-radius: 10px;
+}
+
+.study-bootstrap dt {
+  color: #52647b;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.study-bootstrap dd {
+  margin: 6px 0 0;
+  overflow-wrap: anywhere;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+/* =========================
+   Consent-flow responsiveness
+   ========================= */
+
+@media (max-width: 640px) {
+  .participant-header {
+    padding: 0 20px;
+  }
+
+  .consent-layout {
+    padding: 32px 16px;
+  }
+
+  .consent-card {
+    padding: 28px 22px;
+  }
+
+  .consent-actions {
+    flex-direction: column-reverse;
+  }
+
+  .consent-actions > * {
+    width: 100%;
+  }
+
+  .study-bootstrap {
+    width: calc(100% - 32px);
+    margin: 32px auto;
+    padding: 28px 22px;
+  }
+}
+
+/* =========================
+   Question workflow
+   ========================= */
+
+.question-page {
+  min-height: 100vh;
+  padding: 56px 24px;
+  background: #f6f8fb;
+}
+
+.question-card {
+  width: min(100%, 820px);
+  margin: 0 auto;
+  padding: 46px;
+  background: #ffffff;
+  border: 1px solid #dbe3ec;
+  border-radius: 20px;
+  box-shadow: 0 18px 50px rgb(15 23 42 / 8%);
+}
+
+.question-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.question-progress-label {
+  margin: 0;
+  color: #52647b;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.question-category {
+  padding: 7px 12px;
+  color: #0f766e;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: #ecfdf8;
+  border: 1px solid #a7f3d0;
+  border-radius: 999px;
+  text-transform: capitalize;
+}
+
+.question-progress-track {
+  height: 8px;
+  margin: 24px 0 40px;
+  overflow: hidden;
+  background: #e2e8f0;
+  border-radius: 999px;
+}
+
+.question-progress-value {
+  height: 100%;
+  background: #0f9f8c;
+  border-radius: inherit;
+  transition: width 220ms ease;
+}
+
+.question-content h1 {
+  margin: 0 0 18px;
+  color: #0f172a;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.1;
+}
+
+.question-prompt {
+  margin: 0;
+  color: #334155;
+  font-size: 1.15rem;
+  line-height: 1.75;
+}
+
+.response-form {
+  margin-top: 40px;
+}
+
+.option-fieldset {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+}
+
+.option-fieldset:disabled {
+  opacity: 0.72;
+}
+
+.option-fieldset legend {
+  margin-bottom: 14px;
+  color: #0f172a;
+  font-weight: 800;
+}
+
+.option-list {
+  display: grid;
+  gap: 14px;
+}
+
+.option-card {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  background: #ffffff;
+  border: 1px solid #cbd7e5;
+  border-radius: 12px;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.option-card:hover {
+  border-color: #5eead4;
+  background: #f8fffd;
+  transform: translateY(-1px);
+}
+
+.option-card:focus-within {
+  outline: 3px solid rgb(15 159 140 / 20%);
+  outline-offset: 3px;
+}
+
+.option-card--selected {
+  background: #f0fdfa;
+  border-color: #0f9f8c;
+  box-shadow: 0 0 0 3px rgb(15 159 140 / 12%);
+}
+
+.option-card input {
+  width: 19px;
+  height: 19px;
+  margin: 0;
+  accent-color: #0f9f8c;
+}
+
+.option-code {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  color: #0f766e;
+  font-weight: 800;
+  background: #ccfbf1;
+  border-radius: 8px;
+}
+
+.option-label {
+  color: #1e293b;
+  line-height: 1.55;
+}
+
+.confidence-field {
+  margin-top: 34px;
+  padding-top: 30px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.confidence-field > label {
+  display: block;
+  color: #0f172a;
+  font-weight: 800;
+}
+
+.confidence-field > p {
+  margin: 7px 0 15px;
+  color: #64748b;
+}
+
+.confidence-control {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  gap: 10px;
+}
+
+.confidence-control input {
+  width: 120px;
+  min-height: 48px;
+  padding: 10px 14px;
+  color: #0f172a;
+  font: inherit;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: #ffffff;
+  border: 1px solid #cbd7e5;
+  border-radius: 9px;
+}
+
+.confidence-control input:focus {
+  border-color: #0f9f8c;
+  outline: 3px solid rgb(15 159 140 / 15%);
+}
+
+.confidence-control input:disabled {
+  cursor: not-allowed;
+  background: #f1f5f9;
+}
+
+.confidence-control span {
+  color: #334155;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.field-help {
+  display: block;
+  margin-top: 10px;
+  color: #64748b;
+  font-size: 0.88rem;
+}
+
+.response-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 34px;
+}
+
+.response-actions p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.88rem;
+}
+
+/* =========================
+   Completion screen
+   ========================= */
+
+.completion-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 40px 24px;
+  background: #f6f8fb;
+}
+
+.completion-card {
+  width: min(100%, 680px);
+  padding: 54px;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid #dbe3ec;
+  border-radius: 20px;
+  box-shadow: 0 18px 50px rgb(15 23 42 / 8%);
+}
+
+.completion-icon {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 24px;
+  color: #ffffff;
+  font-size: 2rem;
+  font-weight: 800;
+  background: #0f9f8c;
+  border-radius: 50%;
+  box-shadow: 0 10px 24px rgb(15 159 140 / 24%);
+}
+
+.completion-card h1 {
+  margin: 8px 0 18px;
+  color: #0f172a;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.1;
+}
+
+.completion-card > p {
+  color: #52647b;
+  line-height: 1.7;
+}
+
+.completion-reference {
+  margin: 28px 0;
+  padding: 16px;
+  overflow-wrap: anywhere;
+  background: #f6f8fb;
+  border: 1px solid #dbe3ec;
+  border-radius: 10px;
+}
+
+.study-error-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+/* =========================
+   Responsive question flow
+   ========================= */
+
+@media (max-width: 640px) {
+  .question-page {
+    padding: 24px 14px;
+  }
+
+  .question-card {
+    padding: 28px 20px;
+  }
+
+  .question-header {
+    flex-direction: column;
+  }
+
+  .option-card {
+    grid-template-columns: auto auto 1fr;
+    padding: 15px;
+  }
+
+  .response-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .response-actions .primary-button {
+    width: 100%;
+  }
+
+  .completion-card {
+    padding: 38px 22px;
+  }
+
+  .study-error-actions {
+    flex-direction: column;
+  }
+
+  .study-error-actions > * {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .question-progress-value,
+  .option-card {
+    transition: none;
   }
 }
