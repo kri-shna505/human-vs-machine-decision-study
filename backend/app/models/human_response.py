@@ -122,9 +122,7 @@ class HumanResponse(Base):
     )
 
     selected_option: Mapped["ScenarioOption"] = relationship(
-        primaryjoin=(
-            "HumanResponse.selected_option_id == ScenarioOption.id"
-        ),
+        primaryjoin=("HumanResponse.selected_option_id == ScenarioOption.id"),
         foreign_keys=[selected_option_id],
         viewonly=True,
     )

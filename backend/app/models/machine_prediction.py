@@ -6,11 +6,11 @@ from typing import TYPE_CHECKING
 from uuid import UUID, uuid4
 
 from sqlalchemy import (
+    JSON,
     CheckConstraint,
     DateTime,
     ForeignKeyConstraint,
     Index,
-    JSON,
     Numeric,
     String,
     UniqueConstraint,
@@ -111,9 +111,7 @@ class MachinePrediction(Base):
     )
 
     selected_option: Mapped["ScenarioOption"] = relationship(
-        primaryjoin=(
-            "MachinePrediction.selected_option_id == ScenarioOption.id"
-        ),
+        primaryjoin=("MachinePrediction.selected_option_id == ScenarioOption.id"),
         foreign_keys=[selected_option_id],
         viewonly=True,
     )

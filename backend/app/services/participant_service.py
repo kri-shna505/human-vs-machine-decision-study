@@ -7,7 +7,6 @@ from app.models import Participant
 from app.repositories import create_participant
 from app.services.exceptions import ResourceConflictError
 
-
 PARTICIPANT_CODE_ATTEMPTS = 5
 
 

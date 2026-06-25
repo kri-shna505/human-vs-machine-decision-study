@@ -9,7 +9,6 @@ from sqlalchemy.orm import Session, selectinload
 from app.database import engine
 from app.models import Scenario, ScenarioOption
 
-
 # Fixed UUID namespace used to produce stable IDs in every environment.
 SEED_NAMESPACE = UUID("a597be37-d810-4c55-8685-66ec6b817631")
 
@@ -115,8 +114,7 @@ BASELINE_SCENARIOS: tuple[ScenarioSeed, ...] = (
             OptionSeed(
                 code="B",
                 label=(
-                    "Receive $100 with a 50% probability and $0 with a "
-                    "50% probability."
+                    "Receive $100 with a 50% probability and $0 with a 50% probability."
                 ),
                 display_order=1,
             ),
@@ -177,15 +175,9 @@ def _validate_existing_option_codes(
     A baseline-definition change should therefore be handled explicitly.
     """
 
-    expected_codes = {
-        option.code
-        for option in seed.options
-    }
+    expected_codes = {option.code for option in seed.options}
 
-    existing_codes = {
-        option.code
-        for option in scenario.options
-    }
+    existing_codes = {option.code for option in scenario.options}
 
     unexpected_codes = existing_codes - expected_codes
 
@@ -211,10 +203,7 @@ def _synchronize_options(
         scenario_seed,
     )
 
-    existing_options = {
-        option.code: option
-        for option in scenario.options
-    }
+    existing_options = {option.code: option for option in scenario.options}
 
     created_options = 0
 
@@ -222,10 +211,7 @@ def _synchronize_options(
     # This prevents unique-constraint collisions if their order has changed.
     temporary_order_start = (
         max(
-            (
-                option.display_order
-                for option in scenario.options
-            ),
+            (option.display_order for option in scenario.options),
             default=0,
         )
         + 1000
