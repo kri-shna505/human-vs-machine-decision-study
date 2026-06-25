@@ -1,9 +1,3 @@
-﻿New-Item `
-  -ItemType Directory `
-  -Path .\.github\workflows `
-  -Force | Out-Null
-
-@'
 name: Backend CI
 
 on:
