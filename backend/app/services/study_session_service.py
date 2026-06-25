@@ -136,30 +136,19 @@ def complete_study_session(
             session_id,
         )
 
-        active_scenario_ids = {
-            scenario.id
-            for scenario in active_scenarios
-        }
+        active_scenario_ids = {scenario.id for scenario in active_scenarios}
 
-        answered_scenario_ids = {
-            response.scenario_id
-            for response in responses
-        }
+        answered_scenario_ids = {response.scenario_id for response in responses}
 
-        missing_scenario_ids = (
-            active_scenario_ids - answered_scenario_ids
-        )
+        missing_scenario_ids = active_scenario_ids - answered_scenario_ids
 
-        unexpected_scenario_ids = (
-            answered_scenario_ids - active_scenario_ids
-        )
+        unexpected_scenario_ids = answered_scenario_ids - active_scenario_ids
 
         if missing_scenario_ids:
             missing_count = len(missing_scenario_ids)
 
             raise ResourceConflictError(
-                f"The session has {missing_count} "
-                "unanswered active scenario(s).",
+                f"The session has {missing_count} unanswered active scenario(s).",
             )
 
         if unexpected_scenario_ids:

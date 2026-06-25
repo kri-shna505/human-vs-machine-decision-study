@@ -25,7 +25,6 @@ from app.services import (
     submit_human_response,
 )
 
-
 router = APIRouter(
     prefix="/api/v1",
     tags=["Study"],
@@ -55,10 +54,7 @@ def list_scenarios(
 
     scenarios = get_public_scenarios(database_session)
 
-    return [
-        ScenarioRead.model_validate(scenario)
-        for scenario in scenarios
-    ]
+    return [ScenarioRead.model_validate(scenario) for scenario in scenarios]
 
 
 @router.post(

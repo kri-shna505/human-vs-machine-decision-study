@@ -5,16 +5,13 @@ from app.api import health_router, study_router
 from app.api.exception_handlers import register_service_exception_handlers
 from app.config import get_settings
 
-
 # Load and cache the application configuration.
 settings = get_settings()
 
 
 app = FastAPI(
     title=settings.app_name,
-    description=(
-        "Backend API for the Human vs Machine Decision-Making Study."
-    ),
+    description=("Backend API for the Human vs Machine Decision-Making Study."),
     version="0.1.0",
     docs_url="/docs",
     redoc_url="/redoc",

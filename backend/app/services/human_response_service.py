@@ -18,14 +18,9 @@ from app.services.exceptions import (
     ServiceError,
 )
 
+DUPLICATE_RESPONSE_CONSTRAINT = "uq_human_responses_session_scenario"
 
-DUPLICATE_RESPONSE_CONSTRAINT = (
-    "uq_human_responses_session_scenario"
-)
-
-SCENARIO_OPTION_CONSTRAINT = (
-    "fk_human_responses_scenario_option"
-)
+SCENARIO_OPTION_CONSTRAINT = "fk_human_responses_scenario_option"
 
 
 def _get_constraint_name(
@@ -93,12 +88,10 @@ def submit_human_response(
                 "The selected option does not belong to the scenario.",
             )
 
-        existing_response = (
-            get_response_for_session_and_scenario(
-                database_session,
-                session_id=session_id,
-                scenario_id=scenario_id,
-            )
+        existing_response = get_response_for_session_and_scenario(
+            database_session,
+            session_id=session_id,
+            scenario_id=scenario_id,
         )
 
         if existing_response is not None:

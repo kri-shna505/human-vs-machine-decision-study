@@ -66,9 +66,7 @@ def get_study_session_for_update(
     """
 
     statement = (
-        select(StudySession)
-        .where(StudySession.id == session_id)
-        .with_for_update()
+        select(StudySession).where(StudySession.id == session_id).with_for_update()
     )
 
     return database_session.scalar(statement)

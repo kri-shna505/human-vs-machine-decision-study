@@ -15,7 +15,6 @@ from app.models import (
     StudySession,
 )
 
-
 EXPECTED_TABLES = {
     "human_responses",
     "machine_predictions",
