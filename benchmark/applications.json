@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "benchmark_id": "human-vs-machine-four-application-benchmark-v1",
+  "shared_prompt": {
+    "id": "decision-study-product-brief-v1",
+    "status": "must-be-frozen-before-external-evaluation",
+    "path": "benchmark/shared-prompt.md"
+  },
+  "evaluation_policy": {
+    "same_requirements": true,
+    "same_evaluation_environment": true,
+    "same_time_budget": true,
+    "same_allowed_manual_fixes": true,
+    "ranking_blocked_until_complete": true
+  },
+  "applications": [
+    {
+      "id": "our-application",
+      "label": "Human vs Machine Decision Study",
+      "builder": "Company implementation",
+      "evidence_file": "benchmark/evidence/our-application.json"
+    },
+    {
+      "id": "lovable",
+      "label": "Lovable-generated application",
+      "builder": "Lovable",
+      "evidence_file": "benchmark/evidence/lovable.json"
+    },
+    {
+      "id": "replit",
+      "label": "Replit-generated application",
+      "builder": "Replit",
+      "evidence_file": "benchmark/evidence/replit.json"
+    },
+    {
+      "id": "bolt-new",
+      "label": "Bolt.new-generated application",
+      "builder": "Bolt.new",
+      "evidence_file": "benchmark/evidence/bolt-new.json"
+    }
+  ]
+}
