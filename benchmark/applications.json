@@ -1,16 +1,22 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "benchmark_id": "human-vs-machine-four-application-benchmark-v1",
   "shared_prompt": {
     "id": "decision-study-product-brief-v1",
-    "status": "must-be-frozen-before-external-evaluation",
-    "path": "benchmark/shared-prompt.md"
+    "version": "1.0.0",
+    "status": "frozen",
+    "path": "benchmark/shared-prompt.md",
+    "normalized_sha256": "f04d46fc421e27062c92590351b096277dc0be07d8c32ae5e5355652a3f4c6c0"
   },
   "evaluation_policy": {
     "same_requirements": true,
     "same_evaluation_environment": true,
-    "same_time_budget": true,
-    "same_allowed_manual_fixes": true,
+    "same_evaluation_time_limit": true,
+    "same_allowed_fixes": true,
+    "same_required_screenshots": true,
+    "same_required_test_cases": true,
+    "same_evidence_rules": true,
+    "generation_speed_is_metadata_only": true,
     "ranking_blocked_until_complete": true
   },
   "applications": [
@@ -38,5 +44,12 @@
       "builder": "Bolt.new",
       "evidence_file": "benchmark/evidence/bolt-new.json"
     }
-  ]
+  ],
+  "protocol": {
+    "id": "human-vs-machine-four-application-protocol-v1",
+    "version": "1.0.0",
+    "status": "frozen",
+    "path": "benchmark/protocol.json",
+    "normalized_sha256": "15e199eef2fc1227a94093e99219366db7f710eb03c524217cde3405658590cb"
+  }
 }

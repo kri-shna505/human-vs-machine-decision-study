@@ -31,7 +31,11 @@ jobs:
         run: |
           python -m unittest discover \
             -s scripts/tests \
-            -p "test_benchmark_apps.py"
+            -p "test_benchmark_*.py"
+
+      - name: Validate frozen benchmark protocol
+        run: |
+          python scripts/benchmark_protocol.py --check
 
       - name: Generate benchmark report
         run: |

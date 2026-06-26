@@ -168,3 +168,32 @@ For each generated application:
 Automated accessibility evidence is currently absent for the company
 application. The rubric records that criterion as zero instead of pretending
 that semantic markup alone proves accessibility compliance.
+
+## Frozen protocol
+
+The benchmark prompt and evidence-collection protocol are now frozen.
+
+- Prompt version: `1.0.0`
+- Protocol version: `1.0.0`
+- Prompt SHA-256: `f04d46fc421e27062c92590351b096277dc0be07d8c32ae5e5355652a3f4c6c0`
+- Protocol SHA-256: `15e199eef2fc1227a94093e99219366db7f710eb03c524217cde3405658590cb`
+- Protocol document: `docs/application-benchmark-protocol.md`
+- Machine-readable protocol: `benchmark/protocol.json`
+- Evidence checklist: `benchmark/evidence-collection-checklist.md`
+- Evidence template: `benchmark/evidence-collection-template.json`
+
+All four application records contain the same frozen prompt and protocol
+identifiers. CI rejects prompt, rubric, protocol, manifest, or evidence-metadata
+drift.
+
+Generation time is preserved as metadata and is not part of the product-quality
+score because the company application and tool-generated applications do not
+have equivalent creation histories. The evaluation environment, evaluation
+window, prohibited source changes, screenshots, test cases, and evidence rules
+are identical for all four snapshots.
+
+Validate the frozen protocol:
+
+```powershell
+python scripts/benchmark_protocol.py --check
+```

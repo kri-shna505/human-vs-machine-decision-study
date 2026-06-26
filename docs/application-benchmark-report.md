@@ -53,7 +53,7 @@ Provisional score: **88.25 / 100**
 | Maintainability | 7.00 | 8.00 |
 | Presentation quality | 5.25 | 6.00 |
 
-Provisional internal baseline scored from repository evidence. It may be included in a final ranking only after the shared prompt and external evaluation conditions are frozen.
+Provisional internal product-quality baseline evaluated against the frozen prompt and protocol using repository evidence. Historical build duration is not comparable with external generation time and is therefore excluded from the score.
 
 ## Lovable-generated application
 
@@ -61,7 +61,7 @@ Status: **Pending**
 
 No score is available because evidence collection is incomplete.
 
-Lovable evidence has not been supplied. No score or ranking may be inferred.
+Lovable evidence has not been collected under the frozen protocol. No score or ranking may be inferred.
 
 
 ## Replit-generated application
@@ -70,7 +70,7 @@ Status: **Pending**
 
 No score is available because evidence collection is incomplete.
 
-Replit evidence has not been supplied. No score or ranking may be inferred.
+Replit evidence has not been collected under the frozen protocol. No score or ranking may be inferred.
 
 
 ## Bolt.new-generated application
@@ -79,7 +79,7 @@ Status: **Pending**
 
 No score is available because evidence collection is incomplete.
 
-Bolt.new evidence has not been supplied. No score or ranking may be inferred.
+Bolt.new evidence has not been collected under the frozen protocol. No score or ranking may be inferred.
 
 
 ## Interpretation rules
