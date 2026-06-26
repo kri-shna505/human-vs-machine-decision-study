@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "benchmark_id": "human-vs-machine-four-application-benchmark-v1",
   "application_id": "replit",
   "status": "pending",
@@ -10,8 +10,18 @@
       "type": null,
       "reference": null
     },
-    "shared_prompt_sha256": null,
-    "notes": "Replit evidence has not been supplied. No score or ranking may be inferred."
+    "shared_prompt_sha256": "f04d46fc421e27062c92590351b096277dc0be07d8c32ae5e5355652a3f4c6c0",
+    "notes": "Replit evidence has not been collected under the frozen protocol. No score or ranking may be inferred.",
+    "protocol_id": "human-vs-machine-four-application-protocol-v1",
+    "protocol_version": "1.0.0",
+    "protocol_sha256": "15e199eef2fc1227a94093e99219366db7f710eb03c524217cde3405658590cb",
+    "prompt_id": "decision-study-product-brief-v1",
+    "prompt_version": "1.0.0",
+    "protocol_conformance": "pending",
+    "run_id": null,
+    "tool_version_or_plan": null,
+    "generation_duration_minutes": null,
+    "manual_edit_duration_minutes": null
   },
   "criteria": {}
 }

@@ -1,0 +1,240 @@
+{
+  "schema_version": 1,
+  "protocol_id": "human-vs-machine-four-application-protocol-v1",
+  "protocol_version": "1.0.0",
+  "status": "frozen",
+  "frozen_at": "2026-06-26",
+  "benchmark_id": "human-vs-machine-four-application-benchmark-v1",
+  "prompt": {
+    "id": "decision-study-product-brief-v1",
+    "version": "1.0.0",
+    "path": "benchmark/shared-prompt.md",
+    "normalized_sha256": "f04d46fc421e27062c92590351b096277dc0be07d8c32ae5e5355652a3f4c6c0"
+  },
+  "rubric": {
+    "path": "benchmark/rubric.json",
+    "normalized_sha256": "5e3c012005a5162d54465bb51b0605977b58d03dafbee8a1ee76c4ac05726a75"
+  },
+  "comparison_scope": {
+    "primary_output": "product-quality score",
+    "generation_speed_in_score": false,
+    "generation_speed_reporting": "metadata-only",
+    "statement": "All four frozen application snapshots are judged against the same requirements and evidence protocol. Historical build duration is reported separately because the company application and external tool outputs do not share equivalent creation histories."
+  },
+  "evaluation_environment": {
+    "automated_runner": "ubuntu-24.04-compatible environment",
+    "browser": "Chromium supplied by the installed Playwright version",
+    "desktop_viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "mobile_viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "timezone": "UTC",
+    "locale": "en-US",
+    "network": "enabled only for dependency installation and application runtime",
+    "database": "application-documented persistent relational database"
+  },
+  "time_limits": {
+    "setup_grace_minutes": 15,
+    "evaluation_window_minutes": 90,
+    "maximum_infrastructure_retry_minutes": 15,
+    "maximum_total_minutes_per_application": 120,
+    "timer_starts": "after the application snapshot, evaluator machine, required credentials, and documented start command are available",
+    "timer_stops": "after final evidence capture or the total limit"
+  },
+  "snapshot_policy": {
+    "source_snapshot_required": true,
+    "deployed_url_required_when_supported": true,
+    "snapshot_hash_required": true,
+    "source_changes_after_timer_starts": "prohibited",
+    "score_describes": "the exact preserved snapshot, not the vendor generally"
+  },
+  "allowed_fixes": {
+    "source_code_changes": [],
+    "allowed_environment_actions": [
+      "create environment files from the submitted example",
+      "generate evaluator-owned random secrets",
+      "select unused local ports without changing application behavior",
+      "install dependencies using the submitted lock files",
+      "start documented infrastructure and database services",
+      "normalize line endings when the runtime requires it",
+      "retry one command when a documented transient infrastructure failure is proven"
+    ],
+    "prohibited_actions": [
+      "add, remove, or rewrite product features",
+      "change tests to hide a failure",
+      "alter benchmark scenarios or expected outcomes",
+      "replace real persistence with mocks",
+      "manually edit database rows to manufacture success",
+      "change accessibility markup during evaluation",
+      "change security settings during evaluation",
+      "use vendor marketing material as product evidence"
+    ],
+    "retry_rule": "One retry is allowed only for an infrastructure failure unrelated to application behavior. Both attempts must be preserved."
+  },
+  "required_screenshots": [
+    {
+      "id": "desktop-landing",
+      "viewport": "desktop",
+      "route_or_state": "landing page",
+      "filename": "01-desktop-landing.png"
+    },
+    {
+      "id": "desktop-consent",
+      "viewport": "desktop",
+      "route_or_state": "consent page",
+      "filename": "02-desktop-consent.png"
+    },
+    {
+      "id": "desktop-participant-question",
+      "viewport": "desktop",
+      "route_or_state": "participant question with confidence control",
+      "filename": "03-desktop-participant-question.png"
+    },
+    {
+      "id": "desktop-completion",
+      "viewport": "desktop",
+      "route_or_state": "participant completion",
+      "filename": "04-desktop-completion.png"
+    },
+    {
+      "id": "desktop-supervisor",
+      "viewport": "desktop",
+      "route_or_state": "supervisor guided-question workspace",
+      "filename": "05-desktop-supervisor.png"
+    },
+    {
+      "id": "desktop-analysis",
+      "viewport": "desktop",
+      "route_or_state": "comparative-analysis page",
+      "filename": "06-desktop-analysis.png"
+    },
+    {
+      "id": "mobile-landing",
+      "viewport": "mobile",
+      "route_or_state": "landing page",
+      "filename": "07-mobile-landing.png"
+    },
+    {
+      "id": "mobile-participant-question",
+      "viewport": "mobile",
+      "route_or_state": "participant question",
+      "filename": "08-mobile-participant-question.png"
+    },
+    {
+      "id": "mobile-analysis",
+      "viewport": "mobile",
+      "route_or_state": "comparative-analysis page",
+      "filename": "09-mobile-analysis.png"
+    }
+  ],
+  "required_test_cases": [
+    {
+      "id": "participant-complete",
+      "kind": "functional",
+      "requirement": "complete consent, all three scenarios, and completion"
+    },
+    {
+      "id": "participant-refresh",
+      "kind": "functional",
+      "requirement": "refresh after one answer and recover the next unanswered scenario"
+    },
+    {
+      "id": "duplicate-protection",
+      "kind": "functional",
+      "requirement": "prevent duplicate persisted response submission"
+    },
+    {
+      "id": "route-protection",
+      "kind": "functional",
+      "requirement": "redirect invalid incomplete and completed routes safely"
+    },
+    {
+      "id": "api-failure-recovery",
+      "kind": "functional",
+      "requirement": "show recoverable participant errors without losing valid state"
+    },
+    {
+      "id": "database-persistence",
+      "kind": "data",
+      "requirement": "verify three submitted responses in the relational database"
+    },
+    {
+      "id": "supervisor-no-research-traffic",
+      "kind": "data-isolation",
+      "requirement": "complete supervisor questions and analysis with zero research API submissions"
+    },
+    {
+      "id": "supervisor-reset",
+      "kind": "data-isolation",
+      "requirement": "reset browser-tab supervisor state without changing participant data"
+    },
+    {
+      "id": "keyboard-core-flow",
+      "kind": "accessibility",
+      "requirement": "complete the core participant interaction using keyboard controls"
+    },
+    {
+      "id": "automated-accessibility",
+      "kind": "accessibility",
+      "requirement": "run an automated accessibility scan and preserve the raw report"
+    },
+    {
+      "id": "dependency-source-scan",
+      "kind": "security",
+      "requirement": "preserve dependency and source-security scan results"
+    },
+    {
+      "id": "production-build",
+      "kind": "deployment",
+      "requirement": "produce a release build from the frozen snapshot"
+    },
+    {
+      "id": "release-smoke",
+      "kind": "deployment",
+      "requirement": "run a public-frontend smoke test against the complete stack"
+    }
+  ],
+  "evidence_rules": {
+    "raw_logs_required": true,
+    "screenshots_required": true,
+    "source_references_required": true,
+    "timestamps_required": true,
+    "evaluator_identity_required": true,
+    "manual_claim_without_artifact": "not accepted",
+    "missing_evidence": "criterion remains unscored while evaluation is pending; after an application is marked complete, missing evidence yields score 0",
+    "evidence_directory_pattern": "benchmark/runs/<application-id>/<run-id>/",
+    "required_run_files": [
+      "run.json",
+      "manual-fixes.md",
+      "commands.log",
+      "test-results/",
+      "screenshots/",
+      "security/",
+      "accessibility/",
+      "deployment/"
+    ]
+  },
+  "scoring_procedure": {
+    "score_each_application_independently": true,
+    "score_before_viewing_other_totals": true,
+    "no_cross_application_score_adjustment": true,
+    "two_evaluators_preferred": true,
+    "disagreement_resolution": "record both scores, discuss evidence only, and document the final score with rationale",
+    "ranking_allowed_only_when_all_complete": true,
+    "tie_break_order": [
+      "testing",
+      "data-isolation",
+      "security",
+      "functional-completeness",
+      "deployment-readiness",
+      "accessibility",
+      "maintainability",
+      "ui-quality",
+      "presentation-quality"
+    ]
+  }
+}
