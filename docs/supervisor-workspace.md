@@ -2,15 +2,20 @@
 
 The supervisor experience is available at `/supervisor`.
 
+The presentation-only comparative dashboard is available at
+`/supervisor/analysis` after all guided questions are complete.
+
 ## Data-isolation contract
 
-The workspace must never:
+The workspace and comparative dashboard must never:
 
 - create a consent record
 - create a participant
 - create a research study session
 - submit a human response to the research API
 - complete a research session
+- query live participant results
+- read a research export
 - write supervisor answers to PostgreSQL
 - reuse the participant study-progress storage key
 
@@ -20,7 +25,7 @@ selects **Reset session**.
 
 ## Guided questions
 
-Step 11.2 adds three local decision scenarios:
+The workspace contains three local decision scenarios:
 
 1. Conjunction Fallacy
 2. Framing Effect
@@ -42,28 +47,48 @@ The guided experience supports:
 
 No guided-question action performs a `fetch` request.
 
+## Presentation-only comparative analysis
+
+Step 11.3 adds a responsive dashboard that combines:
+
+- the completed browser-local supervisor session
+- a fixed, versioned illustrative dataset
+- human and model comparison cards
+- scenario-level alignment charts
+- confidence comparison
+- local confidence and consensus summaries
+- explicit data-integrity disclosures
+
+The fixed dataset is defined in:
+
+```text
+frontend/src/supervisor/presentationAnalysis.ts
+```
+
+The dashboard is intentionally deterministic. It does not query the API,
+PostgreSQL, participant records, live research results, or exports.
+
+The dashboard route redirects to `/supervisor` unless a completed local
+supervisor session exists.
+
 ## Verification
 
 Unit tests verify:
 
-- question data integrity
-- secure session creation and validation
-- answer persistence and progression
-- completion state
-- navigation and restart behavior
-- malformed-state removal
-- no local-storage participant state is created
-- no network request occurs during initialization
+- the presentation dataset is explicit and bounded
+- every guided question has a matching chart scenario
+- average calculations are deterministic
+- the dashboard redirects without a completed session
+- comparison cards and charts render
+- local confidence and consensus summaries are correct
+- no live-data request is made
+- navigation back to the workspace exists
 
 Playwright verifies:
 
-- all three questions can be completed
+- all guided questions can be completed
+- the comparative dashboard can be opened
+- presentation-data labeling is visible
+- both charts render
 - no `/api/` request is made
-- question progress survives a page refresh
-- the session can be reset
-
-## Next substep
-
-Step 11.3 will add comparative analysis and charts using presentation-only
-sample data. Those visualizations must remain clearly separated from the
-research-result pipeline.
+- refresh recovery and session reset continue to work

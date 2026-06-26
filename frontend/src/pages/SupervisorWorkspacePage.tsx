@@ -342,9 +342,16 @@ function SupervisorWorkspacePage() {
         </ol>
 
         <div className="supervisor-completion-actions">
+          <Link
+            className="supervisor-primary-button"
+            to="/supervisor/analysis"
+          >
+            View comparative analysis
+          </Link>
+
           <button
             type="button"
-            className="supervisor-primary-button"
+            className="supervisor-secondary-button"
             onClick={handleRestart}
           >
             Restart questions

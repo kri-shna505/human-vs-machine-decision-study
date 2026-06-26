@@ -157,6 +157,12 @@ describe("SupervisorWorkspacePage", () => {
     expect(
       screen.getByText("Receive $500 with certainty."),
     ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole("link", {
+        name: /view comparative analysis/i,
+      }),
+    ).toHaveAttribute("href", "/supervisor/analysis");
   });
 
   it("restores the next question from session storage", () => {
