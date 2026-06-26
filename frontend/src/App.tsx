@@ -1,20 +1,42 @@
+import type { ReactNode } from "react";
 import {
+  Link,
   Navigate,
   Route,
   Routes,
 } from "react-router-dom";
 
+import AppHeader from "./components/AppHeader";
 import CompletionPage from "./pages/CompletionPage";
 import ConsentPage from "./pages/ConsentPage";
 import LandingPage from "./pages/LandingPage";
 import StudyPage from "./pages/StudyPage";
+import SupervisorWorkspacePage from "./pages/SupervisorWorkspacePage";
 import { loadStudyProgress } from "./study/studyStorage";
 import "./App.css";
 
-/**
- * Prevent access to the study unless a valid participant session
- * has already been created and stored.
- */
+interface BrandedPageProps {
+  children: ReactNode;
+  headerContent?: ReactNode;
+  navigationLabel?: string;
+}
+
+function BrandedPage({
+  children,
+  headerContent,
+  navigationLabel,
+}: BrandedPageProps) {
+  return (
+    <>
+      <AppHeader navigationLabel={navigationLabel}>
+        {headerContent}
+      </AppHeader>
+
+      {children}
+    </>
+  );
+}
+
 function ProtectedStudyRoute() {
   const storedProgress = loadStudyProgress();
 
@@ -29,10 +51,6 @@ function ProtectedStudyRoute() {
   return <StudyPage />;
 }
 
-/**
- * Prevent access to the completion page until the stored study
- * progress confirms that the session has been completed.
- */
 function ProtectedCompletionRoute() {
   const storedProgress = loadStudyProgress();
 
@@ -46,9 +64,6 @@ function ProtectedCompletionRoute() {
   return <CompletionPage />;
 }
 
-/**
- * Application route configuration.
- */
 function App() {
   return (
     <Routes>
@@ -59,17 +74,55 @@ function App() {
 
       <Route
         path="/consent"
-        element={<ConsentPage />}
+        element={
+          <BrandedPage
+            navigationLabel="Consent navigation"
+            headerContent={
+              <Link to="/">
+                Return to study home
+              </Link>
+            }
+          >
+            <ConsentPage />
+          </BrandedPage>
+        }
       />
 
       <Route
         path="/study"
-        element={<ProtectedStudyRoute />}
+        element={
+          <BrandedPage
+            navigationLabel="Study status"
+            headerContent={
+              <span className="app-header-context">
+                Participant session
+              </span>
+            }
+          >
+            <ProtectedStudyRoute />
+          </BrandedPage>
+        }
       />
 
       <Route
         path="/complete"
-        element={<ProtectedCompletionRoute />}
+        element={
+          <BrandedPage
+            navigationLabel="Completion navigation"
+            headerContent={
+              <Link to="/">
+                Return to study home
+              </Link>
+            }
+          >
+            <ProtectedCompletionRoute />
+          </BrandedPage>
+        }
+      />
+
+      <Route
+        path="/supervisor"
+        element={<SupervisorWorkspacePage />}
       />
 
       <Route
