@@ -1,6 +1,7 @@
 from fastapi.testclient import TestClient
 
 from app.main import app
+from app.version import APP_VERSION
 
 client = TestClient(app)
 
@@ -11,6 +12,7 @@ def test_root_endpoint() -> None:
     assert response.status_code == 200
     assert response.json() == {
         "name": "Human vs Machine Decision Study",
+        "version": APP_VERSION,
         "mode": "demonstration",
         "status": "running",
     }

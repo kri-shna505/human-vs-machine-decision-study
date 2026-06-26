@@ -47,7 +47,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -90,16 +90,14 @@ jobs:
           python -m uvicorn app.main:app             --host 127.0.0.1             --port 8000             > ../backend-full-stack.log 2>&1 &
           echo $! > ../backend-full-stack.pid
 
-      - name: Wait for backend API
+      - name: Wait for backend database health
         run: |
           for attempt in {1..30}; do
-            if curl               --fail               --silent               http://127.0.0.1:8000/health               > /dev/null; then
+            if curl               --fail               --silent               http://127.0.0.1:8000/health/database               > /dev/null; then
               exit 0
             fi
-
             sleep 2
           done
-
           cat backend-full-stack.log
           exit 1
 

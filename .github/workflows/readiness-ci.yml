@@ -1,0 +1,48 @@
+name: Readiness CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: readiness-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  repository-audit:
+    name: Repository audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out complete repository history
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run deterministic repository audit
+        run: |
+          mkdir -p artifacts
+          python scripts/audit_repository.py             --strict             --output artifacts/release-readiness-report.md             --compare docs/release-readiness-report.md
+
+      - name: Publish report in the job summary
+        if: ${{ always() }}
+        run: cat artifacts/release-readiness-report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload release-readiness report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-readiness-report
+          path: artifacts/release-readiness-report.md
+          if-no-files-found: error
+          retention-days: 30

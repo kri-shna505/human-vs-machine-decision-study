@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api import health_router, study_router
 from app.api.exception_handlers import register_service_exception_handlers
 from app.config import get_settings
+from app.version import APP_VERSION
 
 # Load and cache the application configuration.
 settings = get_settings()
@@ -12,7 +13,7 @@ settings = get_settings()
 app = FastAPI(
     title=settings.app_name,
     description=("Backend API for the Human vs Machine Decision-Making Study."),
-    version="0.1.0",
+    version=APP_VERSION,
     docs_url="/docs",
     redoc_url="/redoc",
 )
@@ -46,6 +47,7 @@ def read_root() -> dict[str, str]:
 
     return {
         "name": settings.app_name,
+        "version": APP_VERSION,
         "mode": settings.app_mode,
         "status": "running",
     }

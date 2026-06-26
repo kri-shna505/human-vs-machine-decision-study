@@ -1,10 +1,21 @@
-# Environment variables
+# Environment variables and local secrets
 .env
-.env.local
-*.env
-.env.release
-.env.release.*
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
 !.env.release.example
+
+# Private keys and credential exports
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+credentials*.json
+service-account*.json
+secrets/
 
 # Python
 __pycache__/
@@ -15,11 +26,24 @@ __pycache__/
 backend/.venv/
 backend/htmlcov/
 .coverage
+coverage.xml
 
 # Node
 frontend/node_modules/
 frontend/dist/
 frontend/.vite/
+frontend/coverage/
+
+# Browser-test artifacts
+frontend/playwright-report/
+frontend/test-results/
+frontend/blob-report/
+
+# Build and audit artifacts
+artifacts/
+release-stack.log
+backend-full-stack.log
+backend-full-stack.pid
 
 # IDE
 .vscode/
@@ -41,8 +65,3 @@ logs/
 # Temporary files
 tmp/
 temp/
-
-# Playwright
-frontend/playwright-report/
-frontend/test-results/
-frontend/blob-report/
