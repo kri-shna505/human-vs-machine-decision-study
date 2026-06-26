@@ -1,0 +1,10 @@
+.researcher-access .secondary-button {
+  margin-top: 24px;
+}
+
+@media (max-width: 760px) {
+  .site-header nav {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+}

@@ -22,9 +22,6 @@ interface StudyRouteState {
   scenarios: Scenario[];
 }
 
-/**
- * Convert an unknown request failure into a user-facing message.
- */
 function getErrorMessage(error: unknown): string {
   if (
     error instanceof Error &&
@@ -36,9 +33,6 @@ function getErrorMessage(error: unknown): string {
   return "The study could not be started. Please try again.";
 }
 
-/**
- * Collect explicit consent and initialize an anonymous study session.
- */
 function ConsentPage() {
   const navigate = useNavigate();
 
@@ -91,7 +85,7 @@ function ConsentPage() {
         sessionId: studySession.id,
         phase: "question",
         currentScenarioIndex: 0,
-        submittedScenarioIds:[],
+        submittedScenarioIds: [],
       });
 
       const routeState: StudyRouteState = {
@@ -111,16 +105,6 @@ function ConsentPage() {
 
   return (
     <div className="participant-page">
-      <header className="participant-header">
-        <Link
-          className="participant-brand"
-          to="/"
-          aria-label="Return to Decision Study home"
-        >
-          Decision Study
-        </Link>
-      </header>
-
       <main className="consent-layout">
         <section
           className="consent-card"

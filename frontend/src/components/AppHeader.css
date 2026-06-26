@@ -1,0 +1,20 @@
+.app-header-context {
+  color: #64748b;
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+@media (max-width: 680px) {
+  .header-content {
+    padding: 0 20px;
+  }
+
+  .site-header nav {
+    gap: 16px;
+  }
+
+  .site-header nav a,
+  .app-header-context {
+    font-size: 0.82rem;
+  }
+}

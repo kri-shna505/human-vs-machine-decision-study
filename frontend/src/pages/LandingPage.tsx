@@ -2,52 +2,12 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { getApiHealth } from "../api/health";
+import AppHeader from "../components/AppHeader";
 import "../App.css";
+import "./LandingPage.css";
 
 type ApiStatus = "checking" | "connected" | "unavailable";
 
-/**
- * Decorative brain logo displayed in the website header.
- */
-function BrainLogo() {
-  return (
-    <span className="brand-mark" aria-hidden="true">
-      <svg
-        className="brand-logo-icon"
-        viewBox="0 0 48 48"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M20.5 9.5c-4.4-3.6-10.5-.3-10.1 5.2-4.1 1.1-5.3 6.4-2.1 9.1-2.2 3.7.1 8.6 4.5 8.8.9 4.2 6.2 5.3 8.9 2.1V13.2c0-1.5-.4-2.8-1.2-3.7Z"
-          stroke="currentColor"
-          strokeWidth="2.4"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-
-        <path
-          d="M27.5 9.5c4.4-3.6 10.5-.3 10.1 5.2 4.1 1.1 5.3 6.4 2.1 9.1 2.2 3.7-.1 8.6-4.5 8.8-.9 4.2-6.2 5.3-8.9 2.1V13.2c0-1.5.4-2.8 1.2-3.7Z"
-          stroke="currentColor"
-          strokeWidth="2.4"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-
-        <path
-          d="M14 18h6M12 25h8M16 32h4M34 18h-6M36 25h-8M32 32h-4"
-          stroke="currentColor"
-          strokeWidth="2.4"
-          strokeLinecap="round"
-        />
-      </svg>
-    </span>
-  );
-}
-
-/**
- * Main public landing page.
- */
 function LandingPage() {
   const [apiStatus, setApiStatus] = useState<ApiStatus>("checking");
 
@@ -82,27 +42,11 @@ function LandingPage() {
 
   return (
     <div className="app" id="top">
-      <header className="site-header">
-        <div className="header-content">
-          <Link
-            className="brand"
-            to="/"
-            aria-label="Decision Study home"
-          >
-            <BrainLogo />
-
-            <span className="brand-text">
-              <span className="brand-title">Decision Study</span>
-              <span className="brand-subtitle">Human vs Machine</span>
-            </span>
-          </Link>
-
-          <nav aria-label="Primary navigation">
-            <a href="#results">Results</a>
-            <a href="#researcher-access">Researcher Access</a>
-          </nav>
-        </div>
-      </header>
+      <AppHeader navigationLabel="Primary navigation">
+        <a href="#results">Results</a>
+        <a href="#researcher-access">Researcher Access</a>
+        <Link to="/supervisor">Supervisor Experience</Link>
+      </AppHeader>
 
       <main>
         <section className="hero">
@@ -181,6 +125,10 @@ function LandingPage() {
             Authorized researchers will be able to review study progress,
             comparative results, and model-analysis outputs.
           </p>
+
+          <Link className="secondary-button" to="/supervisor">
+            Open supervisor experience
+          </Link>
         </section>
       </main>
     </div>
