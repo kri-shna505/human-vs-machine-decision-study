@@ -11,6 +11,7 @@ import CompletionPage from "./pages/CompletionPage";
 import ConsentPage from "./pages/ConsentPage";
 import LandingPage from "./pages/LandingPage";
 import StudyPage from "./pages/StudyPage";
+import SupervisorAnalysisPage from "./pages/SupervisorAnalysisPage";
 import SupervisorWorkspacePage from "./pages/SupervisorWorkspacePage";
 import { loadStudyProgress } from "./study/studyStorage";
 import "./App.css";
@@ -123,6 +124,11 @@ function App() {
       <Route
         path="/supervisor"
         element={<SupervisorWorkspacePage />}
+      />
+
+      <Route
+        path="/supervisor/analysis"
+        element={<SupervisorAnalysisPage />}
       />
 
       <Route

@@ -100,3 +100,66 @@ test("supervisor session can be reset", async ({
     }),
   ).toBeVisible();
 });
+
+test("presentation analysis remains isolated from research APIs", async ({
+  page,
+}) => {
+  const apiRequests: string[] = [];
+
+  page.on("request", (request) => {
+    const url = new URL(request.url());
+
+    if (url.pathname.startsWith("/api/")) {
+      apiRequests.push(url.pathname);
+    }
+  });
+
+  await startGuidedQuestions(page);
+
+  await page.getByLabel("Linda is a bank teller.").check();
+  await page.getByRole("button", { name: "Continue" }).click();
+
+  await page
+    .getByLabel("Program A: 200 people will be saved.")
+    .check();
+  await page.getByRole("button", { name: "Continue" }).click();
+
+  await page
+    .getByLabel(
+      "A 50% chance to receive $1,100 and a 50% chance to receive $0.",
+    )
+    .check();
+
+  await page.getByRole("button", {
+    name: /finish experience/i,
+  }).click();
+
+  await page.getByRole("link", {
+    name: /view comparative analysis/i,
+  }).click();
+
+  await expect(
+    page.getByRole("heading", {
+      name: /human and model decision patterns/i,
+    }),
+  ).toBeVisible();
+
+  await expect(
+    page.getByText(/not live research results/i),
+  ).toBeVisible();
+
+  await expect(
+    page.getByRole("img", {
+      name: /scenario alignment comparison chart/i,
+    }),
+  ).toBeVisible();
+
+  await expect(
+    page.getByRole("img", {
+      name: /confidence comparison chart/i,
+    }),
+  ).toBeVisible();
+
+  expect(apiRequests).toEqual([]);
+});
+

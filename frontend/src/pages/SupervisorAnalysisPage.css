@@ -1,0 +1,461 @@
+.analysis-page {
+  min-height: 100vh;
+  color: #0f172a;
+  background: #ffffff;
+}
+
+.analysis-main {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 38px 0 88px;
+}
+
+.analysis-data-banner {
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border: 1px solid #b7e6df;
+  border-radius: 12px;
+  background: #f0fdfa;
+}
+
+.analysis-data-banner > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.analysis-data-banner strong {
+  color: #0f172a;
+}
+
+.analysis-data-banner span {
+  color: #0f766e;
+}
+
+.analysis-data-banner code {
+  padding: 6px 9px;
+  border-radius: 7px;
+  color: #475569;
+  background: #ffffff;
+  font-size: 0.76rem;
+}
+
+.analysis-hero {
+  max-width: 940px;
+  padding: 72px 0 54px;
+}
+
+.analysis-eyebrow {
+  margin: 0 0 12px;
+  color: #0f9d8a;
+  font-size: 0.76rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.analysis-hero h1 {
+  max-width: 900px;
+  margin: 0;
+  color: #0f172a;
+  font-size: clamp(2.55rem, 6vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: -0.05em;
+}
+
+.analysis-hero > p:last-child {
+  max-width: 760px;
+  margin: 25px 0 0;
+  color: #64748b;
+  font-size: 1.06rem;
+  line-height: 1.75;
+}
+
+.analysis-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.analysis-summary-grid article,
+.analysis-comparison-card,
+.analysis-chart-card,
+.analysis-integrity-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 18px 52px rgb(15 23 42 / 6%);
+}
+
+.analysis-summary-grid article {
+  padding: 24px;
+}
+
+.analysis-summary-grid span {
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 750;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.analysis-summary-grid strong {
+  margin-top: 12px;
+  display: block;
+  color: #0f172a;
+  font-size: 2.3rem;
+  line-height: 1;
+}
+
+.analysis-summary-grid p {
+  margin: 14px 0 0;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.analysis-section {
+  margin-top: 72px;
+}
+
+.analysis-section-heading {
+  margin-bottom: 26px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.65fr);
+  gap: 30px;
+  align-items: end;
+}
+
+.analysis-section-heading h2,
+.analysis-integrity-card h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: clamp(1.8rem, 4vw, 2.65rem);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+}
+
+.analysis-section-heading > p {
+  margin: 0;
+  color: #64748b;
+  line-height: 1.65;
+}
+
+.analysis-comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.analysis-comparison-card {
+  padding: 26px;
+}
+
+.analysis-comparison-card > p:first-child {
+  margin: 0;
+  color: #0f9d8a;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.analysis-comparison-card h2 {
+  min-height: 54px;
+  margin: 12px 0 22px;
+  color: #0f172a;
+  font-size: 1.23rem;
+}
+
+.analysis-card-score {
+  display: block;
+  color: #0f172a;
+  font-size: 3.2rem;
+  font-weight: 850;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.analysis-comparison-card > small {
+  margin-top: 7px;
+  display: block;
+  color: #64748b;
+}
+
+.analysis-comparison-card dl {
+  margin: 24px 0 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.analysis-comparison-card dl div {
+  padding: 12px;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+.analysis-comparison-card dt {
+  color: #64748b;
+  font-size: 0.7rem;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.analysis-comparison-card dd {
+  margin: 5px 0 0;
+  color: #0f766e;
+  font-weight: 850;
+}
+
+.analysis-card-summary {
+  margin: 20px 0 0;
+  color: #64748b;
+  line-height: 1.58;
+}
+
+.analysis-chart-card {
+  padding: clamp(26px, 5vw, 46px);
+}
+
+.analysis-scenario-chart {
+  display: grid;
+  gap: 16px;
+}
+
+.analysis-scenario-group {
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+
+.analysis-scenario-group header {
+  margin-bottom: 23px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.6fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.analysis-scenario-group header span {
+  color: #0f9d8a;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.analysis-scenario-group h3 {
+  margin: 7px 0 0;
+  color: #0f172a;
+  font-size: 1.25rem;
+}
+
+.analysis-scenario-group header strong {
+  color: #334155;
+  font-size: 0.87rem;
+  line-height: 1.55;
+  text-align: right;
+}
+
+.analysis-scenario-bars,
+.analysis-confidence-chart {
+  display: grid;
+  gap: 14px;
+}
+
+.analysis-scenario-group > p {
+  margin: 22px 0 0;
+  color: #64748b;
+  line-height: 1.58;
+}
+
+.analysis-metric-row {
+  display: grid;
+  gap: 8px;
+}
+
+.analysis-metric-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  color: #475569;
+  font-size: 0.87rem;
+}
+
+.analysis-metric-label strong {
+  color: #0f172a;
+}
+
+.analysis-metric-track {
+  height: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e2e8f0;
+}
+
+.analysis-metric-track > span {
+  height: 100%;
+  display: block;
+  border-radius: inherit;
+  background: #64748b;
+}
+
+.analysis-metric-track > .analysis-metric-fill--emphasis {
+  background: #0f9d8a;
+}
+
+.analysis-confidence-chart {
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+
+.analysis-integrity-card {
+  margin-top: 72px;
+  padding: clamp(28px, 5vw, 46px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.75fr);
+  gap: 38px;
+  align-items: center;
+}
+
+.analysis-integrity-card p:last-child {
+  max-width: 610px;
+  margin: 18px 0 0;
+  color: #64748b;
+  line-height: 1.65;
+}
+
+.analysis-integrity-card dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.analysis-integrity-card dl div {
+  padding: 15px;
+  border: 1px solid #e2e8f0;
+  border-radius: 11px;
+  background: #f8fafc;
+}
+
+.analysis-integrity-card dt {
+  color: #64748b;
+  font-size: 0.7rem;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.analysis-integrity-card dd {
+  margin: 6px 0 0;
+  color: #0f766e;
+  font-weight: 850;
+  overflow-wrap: anywhere;
+}
+
+.analysis-actions {
+  margin-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.analysis-primary-button,
+.analysis-secondary-button {
+  min-height: 48px;
+  padding: 0 21px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.analysis-primary-button {
+  color: #ffffff;
+  background: #0f172a;
+  box-shadow: 0 14px 30px rgb(15 23 42 / 16%);
+}
+
+.analysis-primary-button:hover {
+  background: #0f9d8a;
+}
+
+.analysis-secondary-button {
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
+  background: #ffffff;
+}
+
+.analysis-secondary-button:hover {
+  border-color: #0f9d8a;
+  color: #0f766e;
+  background: #f0fdfa;
+}
+
+.analysis-primary-button:focus-visible,
+.analysis-secondary-button:focus-visible {
+  outline: 3px solid rgb(15 157 138 / 24%);
+  outline-offset: 4px;
+}
+
+@media (max-width: 960px) {
+  .analysis-summary-grid,
+  .analysis-comparison-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .analysis-integrity-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .analysis-data-banner,
+  .analysis-data-banner > div,
+  .analysis-section-heading,
+  .analysis-scenario-group header {
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+  }
+
+  .analysis-data-banner,
+  .analysis-data-banner > div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .analysis-scenario-group header strong {
+    text-align: left;
+  }
+}
+
+@media (max-width: 560px) {
+  .analysis-main {
+    width: min(100% - 28px, 1180px);
+    padding-top: 24px;
+  }
+
+  .analysis-summary-grid,
+  .analysis-comparison-grid,
+  .analysis-integrity-card dl {
+    grid-template-columns: 1fr;
+  }
+
+  .analysis-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .analysis-actions > * {
+    width: 100%;
+  }
+}

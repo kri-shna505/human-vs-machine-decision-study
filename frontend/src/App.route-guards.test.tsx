@@ -38,6 +38,14 @@ vi.mock("./pages/CompletionPage", () => ({
   default: () => <div>Completion page</div>,
 }));
 
+vi.mock("./pages/SupervisorWorkspacePage", () => ({
+  default: () => <div>Supervisor workspace page</div>,
+}));
+
+vi.mock("./pages/SupervisorAnalysisPage", () => ({
+  default: () => <div>Supervisor analysis page</div>,
+}));
+
 function LocationProbe() {
   const location = useLocation();
 
@@ -193,6 +201,26 @@ describe("App route guards", () => {
 
     expect(
       screen.getByText("Completion page"),
+    ).toBeInTheDocument();
+  });
+
+  it("maps the supervisor workspace route", () => {
+    renderRoute("/supervisor");
+
+    expect(
+      screen.getByText("Supervisor workspace page"),
+    ).toBeInTheDocument();
+  });
+
+  it("maps the comparative analysis route", () => {
+    renderRoute("/supervisor/analysis");
+
+    expect(
+      screen.getByTestId("location"),
+    ).toHaveTextContent("/supervisor/analysis");
+
+    expect(
+      screen.getByText("Supervisor analysis page"),
     ).toBeInTheDocument();
   });
 });
