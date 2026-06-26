@@ -1,0 +1,179 @@
+name: Release CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+  release:
+    types:
+      - published
+
+concurrency:
+  group: release-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-release:
+    name: Build images and smoke test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+
+    env:
+      RELEASE_ENV_FILE: .env.release.ci
+      RELEASE_COMPOSE_FILE: infrastructure/docker-compose.release.yml
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Create isolated release configuration
+        shell: bash
+        run: |
+          cat > "${RELEASE_ENV_FILE}" <<'EOF'
+          APP_NAME=Human vs Machine Decision Study
+          APP_MODE=research
+          POSTGRES_DB=decision_study
+          POSTGRES_USER=decision_user
+          POSTGRES_PASSWORD=ci-R8f1b5d7cQ2m9x4z
+          FRONTEND_ORIGIN=http://127.0.0.1:8080
+          FRONTEND_PORT=8080
+          BACKEND_IMAGE=human-vs-machine-backend:ci
+          FRONTEND_IMAGE=human-vs-machine-frontend:ci
+          EOF
+
+      - name: Validate release configuration
+        run: |
+          python scripts/validate_release_config.py \
+            --env-file "${RELEASE_ENV_FILE}"
+
+      - name: Validate Docker Compose model
+        run: |
+          docker compose \
+            --env-file "${RELEASE_ENV_FILE}" \
+            -f "${RELEASE_COMPOSE_FILE}" \
+            config --quiet
+
+      - name: Build release images
+        run: |
+          docker compose \
+            --env-file "${RELEASE_ENV_FILE}" \
+            -f "${RELEASE_COMPOSE_FILE}" \
+            build --pull
+
+      - name: Start release stack
+        run: |
+          docker compose \
+            --env-file "${RELEASE_ENV_FILE}" \
+            -f "${RELEASE_COMPOSE_FILE}" \
+            up --detach
+
+      - name: Run release smoke test
+        run: |
+          python scripts/smoke_release.py \
+            --base-url http://127.0.0.1:8080
+
+      - name: Show release service state
+        if: ${{ always() }}
+        run: |
+          docker compose \
+            --env-file "${RELEASE_ENV_FILE}" \
+            -f "${RELEASE_COMPOSE_FILE}" \
+            ps
+
+      - name: Capture release logs
+        if: ${{ failure() }}
+        run: |
+          docker compose \
+            --env-file "${RELEASE_ENV_FILE}" \
+            -f "${RELEASE_COMPOSE_FILE}" \
+            logs --no-color > release-stack.log
+
+      - name: Upload failure diagnostics
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-stack-diagnostics
+          path: release-stack.log
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Stop release stack
+        if: ${{ always() }}
+        run: |
+          docker compose \
+            --env-file "${RELEASE_ENV_FILE}" \
+            -f "${RELEASE_COMPOSE_FILE}" \
+            down --volumes --remove-orphans
+
+  publish-images:
+    name: Publish release images
+    if: ${{ github.event_name == 'release' }}
+    needs:
+      - verify-release
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate backend image metadata
+        id: backend-meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}-backend
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=raw,value=latest,enable=${{ !github.event.release.prerelease }}
+
+      - name: Generate frontend image metadata
+        id: frontend-meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}-frontend
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=raw,value=latest,enable=${{ !github.event.release.prerelease }}
+
+      - name: Build and publish backend image
+        uses: docker/build-push-action@v6
+        with:
+          context: backend
+          file: backend/Dockerfile
+          push: true
+          tags: ${{ steps.backend-meta.outputs.tags }}
+          labels: ${{ steps.backend-meta.outputs.labels }}
+          provenance: mode=max
+          sbom: true
+
+      - name: Build and publish frontend image
+        uses: docker/build-push-action@v6
+        with:
+          context: frontend
+          file: frontend/Dockerfile
+          push: true
+          build-args: |
+            VITE_API_BASE_URL=
+          tags: ${{ steps.frontend-meta.outputs.tags }}
+          labels: ${{ steps.frontend-meta.outputs.labels }}
+          provenance: mode=max
+          sbom: true

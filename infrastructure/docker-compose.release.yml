@@ -1,0 +1,99 @@
+name: human-vs-machine-decision-study
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?POSTGRES_DB is required}
+      POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER is required}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+    volumes:
+      - release_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  migrate:
+    image: ${BACKEND_IMAGE:-human-vs-machine-backend:release}
+    command: ["python", "-m", "alembic", "upgrade", "head"]
+    restart: "no"
+    environment: &backend_environment
+      APP_NAME: ${APP_NAME:-Human vs Machine Decision Study}
+      APP_MODE: ${APP_MODE:?APP_MODE is required}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      FRONTEND_ORIGIN: ${FRONTEND_ORIGIN:?FRONTEND_ORIGIN is required}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  seed:
+    image: ${BACKEND_IMAGE:-human-vs-machine-backend:release}
+    command: ["python", "-m", "app.seeds.scenarios"]
+    restart: "no"
+    environment: *backend_environment
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  backend:
+    image: ${BACKEND_IMAGE:-human-vs-machine-backend:release}
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment: *backend_environment
+    depends_on:
+      postgres:
+        condition: service_healthy
+      seed:
+        condition: service_completed_successfully
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/database', timeout=3)",
+        ]
+      interval: 10s
+      timeout: 4s
+      start_period: 15s
+      retries: 6
+
+  frontend:
+    image: ${FRONTEND_IMAGE:-human-vs-machine-frontend:release}
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: ""
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-8080}:8080"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget --quiet --output-document=- http://127.0.0.1:8080/health/database > /dev/null || exit 1",
+        ]
+      interval: 10s
+      timeout: 4s
+      start_period: 10s
+      retries: 6
+
+volumes:
+  release_postgres_data:

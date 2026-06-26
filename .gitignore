@@ -2,6 +2,9 @@
 .env
 .env.local
 *.env
+.env.release
+.env.release.*
+!.env.release.example
 
 # Python
 __pycache__/
@@ -37,7 +40,9 @@ logs/
 
 # Temporary files
 tmp/
-temp/# Playwright
+temp/
+
+# Playwright
 frontend/playwright-report/
 frontend/test-results/
 frontend/blob-report/
