@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "benchmark_id": "human-vs-machine-four-application-benchmark-v1",
+  "application_id": "replit",
+  "status": "pending",
+  "evaluation": {
+    "evaluated_at": null,
+    "evaluator": null,
+    "snapshot": {
+      "type": null,
+      "reference": null
+    },
+    "shared_prompt_sha256": null,
+    "notes": "Replit evidence has not been supplied. No score or ranking may be inferred."
+  },
+  "criteria": {}
+}

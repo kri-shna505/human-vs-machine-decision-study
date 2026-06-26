@@ -1,0 +1,57 @@
+name: Benchmark CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: benchmark-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  benchmark-validation:
+    name: Validate benchmark framework
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run benchmark validator tests
+        run: |
+          python -m unittest discover \
+            -s scripts/tests \
+            -p "test_benchmark_apps.py"
+
+      - name: Generate benchmark report
+        run: |
+          mkdir -p artifacts
+          python scripts/benchmark_apps.py \
+            --output artifacts/application-benchmark-report.md \
+            --compare docs/application-benchmark-report.md
+
+      - name: Publish report in the job summary
+        if: ${{ always() }}
+        run: |
+          if [ -f artifacts/application-benchmark-report.md ]; then
+            cat artifacts/application-benchmark-report.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload benchmark report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: application-benchmark-report
+          path: artifacts/application-benchmark-report.md
+          if-no-files-found: error
+          retention-days: 30

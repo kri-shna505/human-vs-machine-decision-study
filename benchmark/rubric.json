@@ -1,0 +1,205 @@
+{
+  "schema_version": 1,
+  "benchmark_id": "human-vs-machine-four-application-benchmark-v1",
+  "title": "Four-application benchmark rubric",
+  "score_scale": {
+    "minimum": 0,
+    "maximum": 4,
+    "labels": {
+      "0": "Absent or contradicted",
+      "1": "Claimed or minimally demonstrated",
+      "2": "Partially implemented with limited evidence",
+      "3": "Implemented with reproducible evidence",
+      "4": "Comprehensive, automated, and independently reproducible"
+    }
+  },
+  "evidence_types": [
+    "automated_test",
+    "ci_run",
+    "audit_report",
+    "source_code",
+    "manual_capture",
+    "deployment",
+    "documentation"
+  ],
+  "scoring_rules": {
+    "ranking_requires_all_applications_complete": true,
+    "score_above_zero_requires_evidence": true,
+    "score_four_requires_strong_evidence": true,
+    "strong_evidence_types": [
+      "automated_test",
+      "ci_run",
+      "audit_report",
+      "deployment"
+    ]
+  },
+  "categories": [
+    {
+      "id": "functional-completeness",
+      "label": "Functional completeness",
+      "weight": 18,
+      "description": "End-to-end fulfillment of the shared product requirements.",
+      "criteria": [
+        {
+          "id": "core-study-flow",
+          "label": "Core study flow",
+          "question": "Can a user complete the required decision-study journey without broken or missing steps?"
+        },
+        {
+          "id": "state-recovery",
+          "label": "State recovery",
+          "question": "Does the application recover correctly after refresh, interruption, or resumed use?"
+        },
+        {
+          "id": "failure-handling",
+          "label": "Failure handling",
+          "question": "Are backend, validation, and network failures handled without corrupting state?"
+        }
+      ]
+    },
+    {
+      "id": "ui-quality",
+      "label": "UI quality",
+      "weight": 10,
+      "description": "Visual hierarchy, consistency, responsiveness, and interaction polish.",
+      "criteria": [
+        {
+          "id": "visual-hierarchy",
+          "label": "Visual hierarchy",
+          "question": "Is the interface coherent, legible, consistent, and professionally structured?"
+        },
+        {
+          "id": "responsive-layout",
+          "label": "Responsive layout",
+          "question": "Does the interface remain usable and visually stable across desktop and mobile widths?"
+        }
+      ]
+    },
+    {
+      "id": "accessibility",
+      "label": "Accessibility",
+      "weight": 10,
+      "description": "Keyboard access, semantic structure, focus behavior, labels, and automated accessibility evidence.",
+      "criteria": [
+        {
+          "id": "keyboard-semantics",
+          "label": "Keyboard and semantics",
+          "question": "Can the application be operated with a keyboard and understood through semantic controls and labels?"
+        },
+        {
+          "id": "automated-accessibility",
+          "label": "Automated accessibility",
+          "question": "Is there reproducible accessibility testing such as axe, Lighthouse, or equivalent?"
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "label": "Security",
+      "weight": 12,
+      "description": "Secure defaults, dependency hygiene, code scanning, secrets handling, and trust boundaries.",
+      "criteria": [
+        {
+          "id": "dependency-code-scanning",
+          "label": "Dependency and code scanning",
+          "question": "Are dependencies and source code continuously scanned for known vulnerabilities?"
+        },
+        {
+          "id": "secrets-boundaries",
+          "label": "Secrets and trust boundaries",
+          "question": "Are secrets excluded and security-sensitive data flows explicitly constrained?"
+        }
+      ]
+    },
+    {
+      "id": "testing",
+      "label": "Testing",
+      "weight": 14,
+      "description": "Automated verification depth across units, integration boundaries, browsers, and the real stack.",
+      "criteria": [
+        {
+          "id": "unit-integration-coverage",
+          "label": "Unit and integration coverage",
+          "question": "Are core behaviors covered by deterministic automated tests with enforced coverage?"
+        },
+        {
+          "id": "browser-full-stack",
+          "label": "Browser and full-stack testing",
+          "question": "Are critical flows verified in a real browser and, where applicable, against the real backend and database?"
+        }
+      ]
+    },
+    {
+      "id": "data-isolation",
+      "label": "Data isolation",
+      "weight": 12,
+      "description": "Separation of participant research data, supervisor presentation data, storage, and persistence boundaries.",
+      "criteria": [
+        {
+          "id": "research-presentation-separation",
+          "label": "Research and presentation separation",
+          "question": "Are presentation or supervisor interactions prevented from entering research results?"
+        },
+        {
+          "id": "persistence-boundaries",
+          "label": "Persistence boundaries",
+          "question": "Are browser, API, and database writes explicit, minimal, and verified?"
+        }
+      ]
+    },
+    {
+      "id": "deployment-readiness",
+      "label": "Deployment readiness",
+      "weight": 10,
+      "description": "Reproducible builds, deployment topology, health checks, migrations, smoke tests, and rollback readiness.",
+      "criteria": [
+        {
+          "id": "containerized-release",
+          "label": "Containerized release",
+          "question": "Can the application be built and launched reproducibly using release-grade deployment assets?"
+        },
+        {
+          "id": "health-migrations-smoke",
+          "label": "Health, migrations, and smoke tests",
+          "question": "Are startup dependencies, migrations, health checks, and a real release smoke test automated?"
+        }
+      ]
+    },
+    {
+      "id": "maintainability",
+      "label": "Maintainability",
+      "weight": 8,
+      "description": "Architecture, typing, modularity, documentation, quality gates, and change safety.",
+      "criteria": [
+        {
+          "id": "architecture-types",
+          "label": "Architecture and types",
+          "question": "Is the implementation modular, understandable, and protected by meaningful types and boundaries?"
+        },
+        {
+          "id": "documentation-ci",
+          "label": "Documentation and CI",
+          "question": "Are setup, operation, validation, and release procedures documented and enforced in CI?"
+        }
+      ]
+    },
+    {
+      "id": "presentation-quality",
+      "label": "Presentation quality",
+      "weight": 6,
+      "description": "Supervisor usability, narrative clarity, customer-facing polish, and honest comparison communication.",
+      "criteria": [
+        {
+          "id": "supervisor-flow",
+          "label": "Supervisor flow",
+          "question": "Can a supervisor demonstrate the product safely and fluently without contaminating research data?"
+        },
+        {
+          "id": "comparison-clarity",
+          "label": "Comparison clarity",
+          "question": "Are comparative outputs understandable, clearly labeled, and free from misleading claims?"
+        }
+      ]
+    }
+  ]
+}

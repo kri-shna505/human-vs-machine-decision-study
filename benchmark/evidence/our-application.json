@@ -1,0 +1,321 @@
+{
+  "schema_version": 1,
+  "benchmark_id": "human-vs-machine-four-application-benchmark-v1",
+  "application_id": "our-application",
+  "status": "complete",
+  "evaluation": {
+    "evaluated_at": "2026-06-26",
+    "evaluator": "project team",
+    "snapshot": {
+      "type": "git_commit",
+      "reference": "a23dfcd11219468757c2de2284afa1a082f146ee"
+    },
+    "shared_prompt_sha256": null,
+    "notes": "Provisional internal baseline scored from repository evidence. It may be included in a final ranking only after the shared prompt and external evaluation conditions are frozen."
+  },
+  "criteria": {
+    "core-study-flow": {
+      "score": 4,
+      "notes": "Participant consent, study, completion, and full-stack persistence are automated.",
+      "evidence": [
+        {
+          "type": "automated_test",
+          "reference": "frontend/e2e/study-flow.spec.ts",
+          "claim": "Browser coverage for the complete participant journey."
+        },
+        {
+          "type": "ci_run",
+          "reference": ".github/workflows/full-stack-ci.yml",
+          "claim": "Real frontend, FastAPI, and PostgreSQL flow runs in CI."
+        }
+      ]
+    },
+    "state-recovery": {
+      "score": 4,
+      "notes": "Participant and supervisor flows recover after refresh.",
+      "evidence": [
+        {
+          "type": "automated_test",
+          "reference": "frontend/e2e/study-flow.spec.ts",
+          "claim": "Participant recovery after refresh is tested."
+        },
+        {
+          "type": "automated_test",
+          "reference": "frontend/e2e/supervisor-workspace.spec.ts",
+          "claim": "Supervisor question recovery after refresh is tested."
+        }
+      ]
+    },
+    "failure-handling": {
+      "score": 4,
+      "notes": "API and study-loading failures have explicit recoverable states.",
+      "evidence": [
+        {
+          "type": "automated_test",
+          "reference": "frontend/e2e/study-flow.spec.ts",
+          "claim": "Participant creation, scenario loading, and response failure paths are tested."
+        },
+        {
+          "type": "automated_test",
+          "reference": "backend/tests",
+          "claim": "Backend services and API behavior are covered by Pytest."
+        }
+      ]
+    },
+    "visual-hierarchy": {
+      "score": 3,
+      "notes": "Shared branding and structured participant, supervisor, and analysis pages are implemented; no independent visual audit exists.",
+      "evidence": [
+        {
+          "type": "source_code",
+          "reference": "frontend/src/components/AppHeader.tsx",
+          "claim": "Shared branded header across application experiences."
+        },
+        {
+          "type": "source_code",
+          "reference": "frontend/src/pages/SupervisorAnalysisPage.css",
+          "claim": "Structured presentation dashboard styling."
+        }
+      ]
+    },
+    "responsive-layout": {
+      "score": 3,
+      "notes": "Responsive breakpoints are implemented and manually reviewed; automated multi-viewport visual regression is not present.",
+      "evidence": [
+        {
+          "type": "source_code",
+          "reference": "frontend/src/pages/SupervisorAnalysisPage.css",
+          "claim": "Responsive layouts at tablet and mobile breakpoints."
+        },
+        {
+          "type": "source_code",
+          "reference": "frontend/src/pages/SupervisorWorkspacePage.css",
+          "claim": "Responsive supervisor workspace styling."
+        }
+      ]
+    },
+    "keyboard-semantics": {
+      "score": 2,
+      "notes": "Semantic buttons, links, labels, headings, and progress roles are used, but no complete keyboard audit is recorded.",
+      "evidence": [
+        {
+          "type": "source_code",
+          "reference": "frontend/src/pages/SupervisorWorkspacePage.tsx",
+          "claim": "Questions use labeled controls and semantic actions."
+        },
+        {
+          "type": "source_code",
+          "reference": "frontend/src/pages/SupervisorAnalysisPage.tsx",
+          "claim": "Charts expose progressbar roles and accessible labels."
+        }
+      ]
+    },
+    "automated-accessibility": {
+      "score": 0,
+      "notes": "No axe, Lighthouse accessibility, or equivalent automated gate is currently enforced.",
+      "evidence": []
+    },
+    "dependency-code-scanning": {
+      "score": 4,
+      "notes": "Dependency review, CodeQL, and update automation are configured.",
+      "evidence": [
+        {
+          "type": "ci_run",
+          "reference": ".github/workflows/security.yml",
+          "claim": "Security workflow validates source and dependencies."
+        },
+        {
+          "type": "source_code",
+          "reference": ".github/dependabot.yml",
+          "claim": "Automated dependency updates are configured."
+        }
+      ]
+    },
+    "secrets-boundaries": {
+      "score": 4,
+      "notes": "Secrets and private environment files are excluded, validated, and scanned.",
+      "evidence": [
+        {
+          "type": "audit_report",
+          "reference": "docs/release-readiness-report.md",
+          "claim": "Repository audit checks generated artifacts and secret-bearing files."
+        },
+        {
+          "type": "source_code",
+          "reference": ".gitignore",
+          "claim": "Environment files, credentials, keys, and secrets are excluded."
+        }
+      ]
+    },
+    "unit-integration-coverage": {
+      "score": 4,
+      "notes": "Frontend and backend test suites enforce coverage thresholds.",
+      "evidence": [
+        {
+          "type": "ci_run",
+          "reference": ".github/workflows/frontend-ci.yml",
+          "claim": "Frontend unit tests, coverage, build, and lint run in CI."
+        },
+        {
+          "type": "ci_run",
+          "reference": ".github/workflows/backend-ci.yml",
+          "claim": "Backend Pytest coverage, migrations, and lint run in CI."
+        }
+      ]
+    },
+    "browser-full-stack": {
+      "score": 4,
+      "notes": "Mocked browser tests and real-stack browser tests are automated.",
+      "evidence": [
+        {
+          "type": "ci_run",
+          "reference": ".github/workflows/e2e-ci.yml",
+          "claim": "Mocked Playwright journeys run in CI."
+        },
+        {
+          "type": "ci_run",
+          "reference": ".github/workflows/full-stack-ci.yml",
+          "claim": "Playwright runs against FastAPI and PostgreSQL."
+        }
+      ]
+    },
+    "research-presentation-separation": {
+      "score": 4,
+      "notes": "Supervisor interactions and presentation analytics are isolated from participant research results.",
+      "evidence": [
+        {
+          "type": "automated_test",
+          "reference": "frontend/e2e/supervisor-workspace.spec.ts",
+          "claim": "Supervisor questions and comparative analysis generate no research API traffic."
+        },
+        {
+          "type": "documentation",
+          "reference": "docs/supervisor-workspace.md",
+          "claim": "The isolation contract is explicit and testable."
+        }
+      ]
+    },
+    "persistence-boundaries": {
+      "score": 4,
+      "notes": "Research persistence uses explicit API/database boundaries while supervisor state stays in sessionStorage.",
+      "evidence": [
+        {
+          "type": "automated_test",
+          "reference": "backend/scripts/verify_full_stack_data.py",
+          "claim": "Full-stack persisted responses are verified directly in PostgreSQL."
+        },
+        {
+          "type": "source_code",
+          "reference": "frontend/src/supervisor/supervisorStorage.ts",
+          "claim": "Supervisor state is scoped to sessionStorage."
+        }
+      ]
+    },
+    "containerized-release": {
+      "score": 4,
+      "notes": "Backend and frontend release images and Docker Compose topology are defined.",
+      "evidence": [
+        {
+          "type": "deployment",
+          "reference": "infrastructure/docker-compose.release.yml",
+          "claim": "Release topology includes PostgreSQL, migrations, seeding, backend, and frontend."
+        },
+        {
+          "type": "deployment",
+          "reference": "backend/Dockerfile",
+          "claim": "Backend release image is defined."
+        },
+        {
+          "type": "deployment",
+          "reference": "frontend/Dockerfile",
+          "claim": "Frontend Nginx release image is defined."
+        }
+      ]
+    },
+    "health-migrations-smoke": {
+      "score": 4,
+      "notes": "Migrations, service health, seeding, and release smoke testing are automated.",
+      "evidence": [
+        {
+          "type": "ci_run",
+          "reference": ".github/workflows/release-ci.yml",
+          "claim": "Release images and smoke tests run in CI."
+        },
+        {
+          "type": "automated_test",
+          "reference": "scripts/smoke_release.py",
+          "claim": "A real session with persisted responses is verified through the public frontend."
+        }
+      ]
+    },
+    "architecture-types": {
+      "score": 3,
+      "notes": "Typed frontend modules and layered backend services are present; no independent maintainability audit exists.",
+      "evidence": [
+        {
+          "type": "source_code",
+          "reference": "frontend/src",
+          "claim": "React and TypeScript modules separate pages, API clients, study state, and supervisor state."
+        },
+        {
+          "type": "source_code",
+          "reference": "backend/app",
+          "claim": "FastAPI layers separate API, repositories, services, and persistence."
+        }
+      ]
+    },
+    "documentation-ci": {
+      "score": 4,
+      "notes": "Setup, validation, release, and readiness procedures are documented and enforced.",
+      "evidence": [
+        {
+          "type": "documentation",
+          "reference": "README.md",
+          "claim": "Local setup and validation commands are documented."
+        },
+        {
+          "type": "ci_run",
+          "reference": ".github/workflows/readiness-ci.yml",
+          "claim": "Repository readiness is checked deterministically."
+        },
+        {
+          "type": "documentation",
+          "reference": "docs/release.md",
+          "claim": "Release, smoke, publication, and rollback procedures are documented."
+        }
+      ]
+    },
+    "supervisor-flow": {
+      "score": 4,
+      "notes": "A protected supervisor journey includes local questions, review, and comparative presentation.",
+      "evidence": [
+        {
+          "type": "automated_test",
+          "reference": "frontend/e2e/supervisor-workspace.spec.ts",
+          "claim": "Supervisor initialization, completion, refresh, reset, and analysis are tested."
+        },
+        {
+          "type": "source_code",
+          "reference": "frontend/src/pages/SupervisorWorkspacePage.tsx",
+          "claim": "Customer-facing supervisor experience is implemented."
+        }
+      ]
+    },
+    "comparison-clarity": {
+      "score": 3,
+      "notes": "Presentation values are clearly labeled as illustrative; real cross-tool benchmark evidence is not yet complete.",
+      "evidence": [
+        {
+          "type": "source_code",
+          "reference": "frontend/src/pages/SupervisorAnalysisPage.tsx",
+          "claim": "The dashboard labels illustrative values and research-write boundaries."
+        },
+        {
+          "type": "automated_test",
+          "reference": "frontend/src/pages/SupervisorAnalysisPage.test.tsx",
+          "claim": "Presentation labeling and no-live-data behavior are tested."
+        }
+      ]
+    }
+  }
+}
